@@ -1,8 +1,11 @@
 package com.epam.izh.rd.online.service;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class SimpleDateService implements DateService {
 
@@ -14,7 +17,16 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String parseDate(LocalDate localDate) {
-        return null;
+        if (localDate == null) {
+            return "";
+        }
+        String date = null;
+        try {
+            date = localDate.format(DateTimeFormatter.ofPattern("dd-MM-yyy"));
+        } catch (DateTimeException ex) {
+            ex.printStackTrace();
+        }
+        return date;
     }
 
     /**
@@ -25,7 +37,13 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public LocalDateTime parseString(String string) {
-        return null;
+        LocalDateTime dateTime = null;
+        try {
+            dateTime = LocalDateTime.parse(string, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        } catch (DateTimeParseException ex) {
+            ex.printStackTrace();
+        }
+        return dateTime;
     }
 
     /**
@@ -37,7 +55,16 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String convertToCustomFormat(LocalDate localDate, DateTimeFormatter formatter) {
-        return null;
+        if (localDate == null || formatter == null) {
+            return "";
+        }
+        String date = null;
+        try {
+            date = localDate.format(formatter);
+        } catch (DateTimeException ex) {
+            ex.printStackTrace();
+        }
+        return date;
     }
 
     /**
@@ -47,7 +74,13 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getNextLeapYear() {
-        return 0;
+        LocalDate date = LocalDate.now();
+        long count = 1;
+        while (!date.isLeapYear()) {
+            date = date.plusYears(count);
+            count++;
+        }
+        return date.getYear();
     }
 
     /**
@@ -57,7 +90,9 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getSecondsInYear(int year) {
-        return 0;
+        final int SECONDS_OF_DAY = 24 * 60 * 60;
+        LocalDate date = LocalDate.of(year, Month.JANUARY, 1);
+        return date.lengthOfYear() * SECONDS_OF_DAY;
     }
 
 
