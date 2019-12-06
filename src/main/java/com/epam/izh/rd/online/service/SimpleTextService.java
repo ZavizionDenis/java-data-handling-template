@@ -13,7 +13,7 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String removeString(String base, String remove) {
-        return null; //TODO
+        return remove == null || remove.isEmpty() ? base : base.replaceAll(remove,""); //TODO
     }
 
     /**
@@ -24,7 +24,7 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isQuestionString(String text) {
-        return false; //TODO
+        return text != null && text.endsWith("?"); //TODO
     }
 
     /**
@@ -35,7 +35,14 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String concatenate(String... elements) {
-        return null; //TODO
+        if (elements == null || elements.length == 0) {
+            return "";
+        }
+        StringBuilder concatString = new StringBuilder();
+        for (String element : elements) {
+            concatString.append(element);
+        }
+        return concatString.toString(); //TODO
     }
 
     /**
@@ -47,7 +54,19 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String toJumpCase(String text) {
-        return null; //TODO
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+        StringBuilder jumpString = new StringBuilder();
+        jumpString.append(text.substring(0, 1).toLowerCase());
+        for (int i = 1; i < text.length(); i++) {
+            if (i % 2 != 0) {
+                jumpString.append(text.substring(i, i + 1).toUpperCase());
+            } else {
+                jumpString.append(text.substring(i, i + 1).toLowerCase());
+            }
+        }
+        return jumpString.toString(); //TODO
     }
 
     /**
@@ -59,6 +78,12 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isPalindrome(String string) {
-       return false; //TODO
+        if (string == null || string.isEmpty()) {
+            return false;
+        }
+        String reverseString = new StringBuilder(string).reverse().toString();
+        reverseString = reverseString.replaceAll("\\s", "");
+        string = string.replaceAll("\\s", "");
+        return string.equalsIgnoreCase(reverseString); //TODO
     }
 }
