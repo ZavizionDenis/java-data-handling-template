@@ -37,6 +37,9 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public LocalDateTime parseString(String string) {
+        if (string == null || string.isEmpty()) {
+            return LocalDateTime.MIN;
+        }
         LocalDateTime dateTime = null;
         try {
             dateTime = LocalDateTime.parse(string, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
