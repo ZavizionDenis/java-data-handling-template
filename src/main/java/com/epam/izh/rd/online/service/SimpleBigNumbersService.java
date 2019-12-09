@@ -2,6 +2,7 @@ package com.epam.izh.rd.online.service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 public class SimpleBigNumbersService implements BigNumbersService {
 
@@ -13,7 +14,7 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigDecimal getPrecisionNumber(int a, int b, int range) {
-        return null;
+        return BigDecimal.valueOf(a).divide(BigDecimal.valueOf(b), range, RoundingMode.HALF_UP);
     }
 
     /**
@@ -24,6 +25,25 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigInteger getPrimaryNumber(int range) {
-        return null;
+        int count = 1;
+        BigInteger primaryNumber = BigInteger.valueOf(0L);
+        BigInteger checkedNumber = BigInteger.valueOf(2L);
+        while (count <= range) {
+            boolean isPrimary = true;
+            BigInteger delimetr = BigInteger.valueOf(2L);
+            while (delimetr.compareTo(checkedNumber) < 0) {
+                if (checkedNumber.remainder(delimetr).equals(BigInteger.valueOf(0L))) {
+                    isPrimary = false;
+                    break;
+                }
+                delimetr = delimetr.add(BigInteger.valueOf(1L));
+            }
+            if (isPrimary) {
+                primaryNumber = checkedNumber;
+                count++;
+            }
+            checkedNumber = checkedNumber.add(BigInteger.valueOf(1L));
+        }
+        return primaryNumber; // В тесте ожидается значение 547, что не является 100ым простым числом https://ru.wikipedia.org/wiki/Список_простых_чисел
     }
 }
