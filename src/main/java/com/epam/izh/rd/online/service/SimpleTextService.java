@@ -38,11 +38,7 @@ public class SimpleTextService implements TextService {
         if (elements == null || elements.length == 0) {
             return "";
         }
-        StringBuilder concatString = new StringBuilder();
-        for (String element : elements) {
-            concatString.append(element);
-        }
-        return concatString.toString(); //TODO
+        return String.join("", elements); //TODO
     }
 
     /**
