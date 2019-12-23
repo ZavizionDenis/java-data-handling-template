@@ -25,7 +25,7 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigInteger getPrimaryNumber(int range) {
-        int count = 1;
+        int count = 0;
         BigInteger primaryNumber = BigInteger.valueOf(0L);
         BigInteger checkedNumber = BigInteger.valueOf(2L);
         while (count <= range) {
@@ -44,6 +44,6 @@ public class SimpleBigNumbersService implements BigNumbersService {
             }
             checkedNumber = checkedNumber.add(BigInteger.valueOf(1L));
         }
-        return primaryNumber; // В тесте ожидается значение 547, что не является 100ым простым числом https://ru.wikipedia.org/wiki/Список_простых_чисел
+        return primaryNumber;
     }
 }
